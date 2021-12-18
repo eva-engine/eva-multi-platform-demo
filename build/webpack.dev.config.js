@@ -5,6 +5,7 @@ const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 /*
  * SplitChunksPlugin is enabled by default and replaced
  * deprecated CommonsChunkPlugin. It automatically identifies modules which
@@ -26,9 +27,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
  *
  */
 
-const target = path.resolve(__dirname, './docs');
+const target = path.resolve('./minigame_project');
 
-module.exports = {
+const config = {
   mode: 'development',
   entry: './src/index.ts',
   devtool: 'inline-source-map',
@@ -45,7 +46,7 @@ module.exports = {
           loader: 'tsx',
           target: 'es2015',
         },
-        include: [path.resolve(__dirname, 'src')],
+        include: [path.resolve(__dirname, '../src')],
         exclude: [/node_modules/],
       },
       {
@@ -79,21 +80,25 @@ module.exports = {
   },
 
   devServer: {
-    port: 9000,
+    port: 9002,
     compress: true,
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './index.html'),
+      template: path.resolve(__dirname, '../index.html'),
       title: 'cramped room of death',
     }),
     new webpack.ProgressPlugin(),
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      root: target,
+      cleanStaleWebpackAssets: false,
+      cleanOnceBeforeBuildPatterns: ['main.js'],
+    }),
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, './static'),
-        to: path.join(target,"static"),
+        from: path.resolve(__dirname, '../static'),
+        to: path.join(target, "static"),
         ignore: ['.*'],
       },
     ]),
@@ -104,5 +109,8 @@ module.exports = {
         css: true,
       }),
     ],
-  },
+  }
 };
+
+
+module.exports = config

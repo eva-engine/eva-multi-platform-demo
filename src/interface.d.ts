@@ -6,6 +6,7 @@ interface Window {
   game: any;
   throwBall: any;
   resetBall: any;
+  canvas: HTMLCanvasElement
 }
 
 interface HTMLElement {

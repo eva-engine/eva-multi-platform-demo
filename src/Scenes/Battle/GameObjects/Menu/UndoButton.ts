@@ -31,7 +31,7 @@ const UndoButton = () => {
 
   const eventManager = go.addComponent(new Event());
 
-  eventManager.on('touchstart', () => {});
+  eventManager.on('touchstart', () => { });
 
   const touchHandler = () => {
     EventManager.Instance.emit(EVENT_ENUM.REVOKE_STEP);

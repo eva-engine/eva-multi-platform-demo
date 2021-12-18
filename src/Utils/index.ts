@@ -77,3 +77,13 @@ export const debounce = (fn: Function, ctx: any, delay = 1000) => {
     }, delay);
   };
 };
+let systemInfo: wx.systemInfo
+export const getSafeTop = () => {
+  let offsetTop = 0
+  if (window.wx) {
+    systemInfo = systemInfo || wx.getSystemInfoSync()
+    offsetTop = systemInfo.safeArea.top
+  } else {
+    return 0
+  }
+}

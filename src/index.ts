@@ -20,10 +20,17 @@ export const SCREEN_HEIGHT = 667 ;
 
 resource.addResource(resources);
 
+let canvas
+if (!window.wx)  {
+  canvas = document.querySelector('#canvas') as HTMLCanvasElement
+} else {
+  canvas = window.canvas
+}
+
 export const game = new Game({
   systems: [
     new RendererSystem({
-      canvas: document.querySelector('#canvas'),
+      canvas: canvas,
       resolution: window.devicePixelRatio / 2,
       width: SCREEN_WIDTH,
       height: SCREEN_HEIGHT,
