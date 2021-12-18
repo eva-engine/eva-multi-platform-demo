@@ -1,8 +1,8 @@
-#《Cramped Room Of Death》
-
-Eva.js 微信小游戏模板
+# Eva.js 多平台模板
 
 ## 来源
+《Cramped Room Of Death》
+
 本游戏由 [SLI97](https://github.com/SLI97) 开发 原仓库地址 [SLI97/eva-cramped-room-of-death](https://github.com/SLI97/eva-cramped-room-of-death)
 
 [在线试玩](https://sli97.github.io/eva-cramped-room-of-death)
@@ -17,12 +17,12 @@ Eva.js 微信小游戏模板
 npm run start
 ```
 
-### 编译成微信小游戏
-```js
-npm run build:minigame
-```
-
 ### 编译成Web/H5
 ```js
 npm run build:web
+```
+
+### 编译成微信小游戏
+```js
+npm run build:minigame
 ```
