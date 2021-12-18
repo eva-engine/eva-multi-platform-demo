@@ -1,6 +1,8 @@
 # Eva.js 多平台模板
 
-## 来源
+本仓库脚手架支持将 Eva.js 编译成 Web 和 微信小游戏，未来会扩展支付宝/淘宝小程序。
+
+## 游戏来源
 《Cramped Room Of Death》
 
 本游戏由 [SLI97](https://github.com/SLI97) 开发 原仓库地址 [SLI97/eva-cramped-room-of-death](https://github.com/SLI97/eva-cramped-room-of-death)
