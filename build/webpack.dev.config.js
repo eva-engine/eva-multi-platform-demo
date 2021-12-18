@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 
 /*
@@ -108,6 +109,7 @@ const config = {
       new ESBuildMinifyPlugin({
         css: true,
       }),
+      new TerserPlugin(),
     ],
   }
 };

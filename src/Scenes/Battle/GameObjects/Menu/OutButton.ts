@@ -1,7 +1,7 @@
 import { GameObject } from '@eva/eva.js';
 import { Sprite } from '@eva/plugin-renderer-sprite';
 import { Event } from '@eva/plugin-renderer-event';
-import {  START_BUTTON_HEIGHT, START_BUTTON_WIDTH } from './Menu';
+import { START_BUTTON_HEIGHT, START_BUTTON_WIDTH } from './Menu';
 import { game } from '../../../../index';
 import MenuScene from '../../../Menu';
 
@@ -34,6 +34,7 @@ const OutButton = () => {
   eventManager.on('touchstart', () => {});
 
   const touchHandler = () => {
+    game.scene.destroy();
     game.loadScene({
       scene: MenuScene(),
     });

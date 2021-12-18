@@ -1,6 +1,6 @@
 import { Component, GameObject } from '@eva/eva.js';
-import DataManager from '../../Runtime/DataManager';
-import Levels, { IBurst, IDoor, IEnemy, ILevel, IPlayer, ISmoke, ISpikes } from '../../Levels/index';
+import DataManager, { IRecord } from '../../Runtime/DataManager';
+import Levels, { ILevel, ISmoke } from '../../Levels/index';
 import Background from './GameObjects/Background/Background';
 import Player from './GameObjects/Player/Player';
 import { game, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../index';
@@ -40,6 +40,15 @@ export default class BattleManager extends Component {
     this.initLevel();
   }
 
+  onDestroy() {
+    EventManager.Instance.off(EVENT_ENUM.PLAYER_MOVE_END, this.checkFinishCurLevel, this);
+    EventManager.Instance.off(EVENT_ENUM.NEXT_LEVEL, this.nextLevel, this);
+    EventManager.Instance.off(EVENT_ENUM.RESTART_LEVEL, this.initLevel, this);
+    EventManager.Instance.off(EVENT_ENUM.SCREEN_SHAKE, this.onShake, this);
+    EventManager.Instance.off(EVENT_ENUM.REVOKE_STEP, this.revoke, this);
+    EventManager.Instance.off(EVENT_ENUM.RECORD_STEP, this.record, this);
+  }
+
   initLevel() {
     const level = Levels['level' + DataManager.Instance.levelIndex];
     if (level) {
@@ -57,11 +66,11 @@ export default class BattleManager extends Component {
 
         this.generateBackground();
         this.generateDoor();
-        this.generateEnemy();
-        this.generatePlayer();
-
         this.generateBursts();
         this.generateSpikes();
+        this.generateEnemy();
+
+        this.generatePlayer();
         EventManager.Instance.emit(EVENT_ENUM.BATTLE_LOADED);
 
         this.fixPos();
@@ -69,19 +78,20 @@ export default class BattleManager extends Component {
       });
     } else {
       DataManager.Instance.fm.fadeIn(200).then(() => {
+        game.scene.destroy();
         game.loadScene({
           scene: MenuScene(),
         });
-      })
+      });
     }
   }
 
   clearLevel() {
     this.childrens.forEach(go => {
-      this.gameObject.removeChild(go);
+      go.destroy();
     });
+    this.childrens = [];
   }
-
 
   generateBackground() {
     const background = Background();
@@ -285,20 +295,16 @@ export default class BattleManager extends Component {
   }
 
   record() {
-    const item: {
-      player: IPlayer;
-      door: IDoor;
-      enemies: IEnemy[];
-      spikes: ISpikes[];
-      bursts: IBurst[];
-    } = {
+    const item: IRecord = {
       player: {
         x: DataManager.Instance.player.targetX,
         y: DataManager.Instance.player.targetY,
         state:
-          DataManager.Instance.player.state === PLAYER_STATE.ATTACK
-            ? PLAYER_STATE.IDLE
-            : DataManager.Instance.player.state,
+          DataManager.Instance.player.state === PLAYER_STATE.IDLE ||
+          DataManager.Instance.player.state === PLAYER_STATE.DEATH ||
+          DataManager.Instance.player.state === PLAYER_STATE.AIRDEATH
+            ? DataManager.Instance.player.state
+            : PLAYER_STATE.IDLE,
         direction: DataManager.Instance.player.direction,
       },
       door: {

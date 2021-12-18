@@ -13,7 +13,7 @@ export default class DoorManager extends EntityManager {
     super.init(door);
   }
 
-  unbind() {
+  onDestroy() {
     // EventManager.Instance.off(EVENT_ENUM.OPENDOOR, this.onOpenHandler)
   }
 
@@ -27,7 +27,6 @@ export default class DoorManager extends EntityManager {
 
   //放在lateUpdate中，防止被resetTrigger
   lateUpdate() {
-    //   update() {
     if (
       DataManager.Instance.enemies &&
       DataManager.Instance.enemies.every((enemy: EntityManager) => enemy.state === PLAYER_STATE.DEATH) &&
@@ -35,6 +34,5 @@ export default class DoorManager extends EntityManager {
     ) {
       this.state = PLAYER_STATE.DEATH;
     }
-    // super.update();
   }
 }

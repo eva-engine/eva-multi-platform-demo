@@ -1,10 +1,21 @@
 import Singleton from '../base/Singleton';
 import TileManager from '../Scenes/Battle/GameObjects/Tile/TileManager';
-import { ITile } from '../Levels';
+import { IBurst, IDoor, IEnemy, IPlayer, ISpikes, ITile } from '../Levels';
 import PlayerManager from '../Scenes/Battle/GameObjects/Player/Scripts/PlayerManager';
 import EnemyManager from '../Base/EnemyManager';
 import DoorManager from '../Scenes/Battle/GameObjects/Door/Scripts/DoorManager';
 import FaderManager from '../Scenes/Battle/GameObjects/Fader/FaderManager';
+import SpikesManager from '../Scenes/Battle/GameObjects/Spikes/Scripts/SpikesManager';
+import BurstManager from '../Scenes/Battle/GameObjects/Burst/Scripts/BurstManager';
+import SmokeManager from '../Scenes/Battle/GameObjects/Smoke/Scripts/SmokeManager';
+
+export interface IRecord {
+  player: IPlayer;
+  door: IDoor;
+  enemies: IEnemy[];
+  spikes: ISpikes[];
+  bursts: IBurst[];
+}
 
 /**
  * 全局数据管理类
@@ -16,11 +27,11 @@ export default class DataManager extends Singleton {
 
   player: PlayerManager;
   enemies: EnemyManager[];
-  spikes: any;
-  bursts: any;
+  spikes: SpikesManager[];
+  bursts: BurstManager[];
   door: DoorManager;
-  smokes: any;
-  records: any;
+  smokes: SmokeManager[];
+  records: IRecord[];
   mapRowCount: number;
   mapColumnCount: number;
   levelIndex: number;
@@ -32,7 +43,7 @@ export default class DataManager extends Singleton {
 
   constructor() {
     super();
-    this.levelIndex = 1;
+    this.levelIndex = 2;
     this.reset();
   }
 
@@ -44,35 +55,11 @@ export default class DataManager extends Singleton {
     this.mapColumnCount = 0;
 
     //活动元素信息
-    if (this.player) {
-      this.player.unbind();
-    }
     this.player = null;
-
-    if (this.enemies instanceof Array && this.enemies.length) {
-      this.enemies.forEach(i => {
-        i.unbind();
-      });
-    }
     this.enemies = [];
-
-    if (this.spikes instanceof Array && this.spikes.length) {
-      this.spikes.forEach(i => {
-        i.unbind();
-      });
-    }
     this.spikes = [];
-
-    if (this.bursts instanceof Array && this.bursts.length) {
-      this.bursts.forEach(i => {
-        i.unbind();
-      });
-    }
     this.bursts = [];
 
-    if (this.door) {
-      this.door.unbind();
-    }
     this.door = null;
     this.smokes = [];
 
