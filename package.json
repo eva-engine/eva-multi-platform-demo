@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve -c ./build/webpack.dev.config.js",
     "watch": "webpack --watch -c ./build/webpack.dev.config.js",
-    "build": "node ./build/build.js && webpack -c ./build/webpack.config.js",
+    "build:minigame": "node ./build/build.js && webpack -c ./build/webpack.minigame.config.js",
+    "build:web": "webpack -c ./build/webpack.web.config.js",
     "mini": "gulp",
     "lint": "eslint --fix & prettier --write src/**"
   },
