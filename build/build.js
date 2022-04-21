@@ -4,7 +4,7 @@ const fs = require('fs')
 const { resolve } = require('path')
 
 const baseDir = resolve(__dirname, '..')
-const projectDir = resolve(__dirname, './minigame_project')
+const projectDir = resolve(baseDir, './minigame_project')
 
 const evaFileDir = resolve(baseDir, 'minigame_project/eva/')
 console.log(evaFileDir)
